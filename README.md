@@ -9,4 +9,5 @@
 ![Screenshot 2023-10-02 200013](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/d9793d97-801f-48ca-bf69-e582ac730665)
 # then impliment physical schema   
 
-![Screenshot 2023-10-02 200341](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/14a3baed-aa44-4074-ab32-18bd92d54460)
+![06_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/1015bd3b-fd81-4ba4-82dc-8b822a5bcba3)
+
