@@ -12,662 +12,661 @@
 ![06_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/1015bd3b-fd81-4ba4-82dc-8b822a5bcba3)
 
 # Let's go for structure 
-create database Union_Bank
-go
+<br> create database Union_Bank
+<br> go
 
-USE Union_Bank
-go
+<br> USE Union_Bank
+<br> go
 
---2)Q2.Create all the tables mentioned in the database diagram.
---create tables & add constraint Section 
---3)Q3. Create all the constraints based on the database diagram.
+<br> --2)Q2.Create all the tables mentioned in the database diagram.
+<br> --create tables & add constraint Section 
+<br> --3)Q3. Create all the constraints based on the database diagram.
 
---Creating table named Customers
-create table Customers 
-(
-CustomerId int primary key identity(1,1),
-FirstName varchar(50) not null,
-LastName varchar(50) not null,
-Gender varchar(1) not null,
-Email varchar(50) not null,
-BirthDate date not null,
-Age as year(getdate())-year (BirthDate),
-City varchar(50) not null,
-State varchar(50) not null,
---constraint ch1 check(Gender in ('m','f'))
-);
-go
+<br> --Creating table named Customers
+<br> create table Customers 
+<br> (
+<br> CustomerId int primary key identity(1,1),
+<br> FirstName varchar(50) not null,
+<br> LastName varchar(50) not null,
+<br> Gender varchar(1) not null,
+<br> Email varchar(50) not null,
+<br> BirthDate date not null,
+<br> Age as year(getdate())-year (BirthDate),
+<br> City varchar(50) not null,
+<br> State varchar(50) not null,
+<br> --constraint ch1 check(Gender in ('m','f'))
+<br> );
+<br> go
 
---Creating table named Customer_phones
-create table Customer_phones 
-(
-CustomerId int,
-phone varchar(50) not null,
-constraint  Customer_phones_IDS primary key (CustomerId, phone),
-constraint Customer_phones_Customers foreign key (CustomerId) 
-references Customers (CustomerId)
-);
-go
+<br> --Creating table named Customer_phones
+<br> create table Customer_phones 
+<br> (
+<br> CustomerId int,
+<br> phone varchar(50) not null,
+<br> constraint  Customer_phones_IDS primary key (CustomerId, phone),
+<br> constraint Customer_phones_Customers foreign key (CustomerId) 
+<br> references Customers (CustomerId)
+<br> );
+<br> go
 
---Creating table named Branch
-create table Branch 
-(
-BranchId int primary key,
-BranchName varchar(50) not null,
-Branch_Location varchar(50) not null,
-);
-go
+<br> --Creating table named Branch
+<br> create table Branch 
+<br> (
+<br> BranchId int primary key,
+<br> BranchName varchar(50) not null,
+<br> Branch_Location varchar(50) not null,
+<br> );
+<br> go
 
---Creating table named Account
-create table Account 
-(
-AccountNumber int primary key, 
-AccountType varchar(50) ,
-Balance float not null,
-OpenDate date default getdate(),
-Account_Status varchar(30) not null,
-Branchid INT,
-CustomerId int,
-constraint customer_Account foreign key (CustomerId)
-references Customers (CustomerId) ,
-constraint Branch_Account foreign key (Branchid)
-references Branch (BranchId) ,
---constraint ch2 check(Account_status in ('active','not active')),
-);
-go
+<br> --Creating table named Account
+<br> create table Account 
+<br> (
+<br> AccountNumber int primary key, 
+<br> AccountType varchar(50) ,
+<br> Balance float not null,
+<br> OpenDate date default getdate(),
+<br> Account_Status varchar(30) not null,
+<br> Branchid INT,
+<br> CustomerId int,
+<br> constraint customer_Account foreign key (CustomerId)
+<br> references Customers (CustomerId) ,
+<br> constraint Branch_Account foreign key (Branchid)
+<br> references Branch (BranchId) ,
+<br> --constraint ch2 check(Account_status in ('active','not active')),
+<br> );
+<br> go
   
----we can check on account type through this constraint to check if 
---- the account saving or current ---
-alter table account add constraint check_status check(accounttype in ('saving','current'))
+<br> ---we can check on account type through this constraint to check if 
+<br> --- the account saving or current ---
+<br> alter table account add constraint check_status check(accounttype in ('saving','current'))
 
---Creating table named Transactions
-create table Transactions 
-(
-Transaction_Type_Id int primary key identity (1,1),
-TransactionType varchar(30) not null,
-);
-go
+<br> --Creating table named Transactions
+<br> create table Transactions 
+<br> (
+<br> Transaction_Type_Id int primary key identity (1,1),
+<br> TransactionType varchar(30) not null,
+<br> );
+<br> go
 
---Creating table named Card */
-create table Card (
-CardNumber int primary key,
-CardType varchar(30) not null,
-card_Status varchar (30) not null,
-ExpiryDate date not null,
-AccountNumber int,
-constraint Card_Account  foreign key (AccountNumber)
-references Account (AccountNumber) 
-);
-go
+<br> --Creating table named Card */
+<br> create table Card (
+<br> CardNumber int primary key,
+<br> CardType varchar(30) not null,
+<br> card_Status varchar (30) not null,
+<br> ExpiryDate date not null,
+<br> AccountNumber int,
+<br> constraint Card_Account  foreign key (AccountNumber)
+<br> references Account (AccountNumber) 
+<br> );
+<br> go
 
---Creating table named Employee
-create table Employee (
-EmployeeId int primary key,
-FirstName varchar(30) NOT NULL,
-LastName varchar(30) NOT null,
-Salary DECIMAL NOT NULL,
-Position varchar(50) NOT NULL,
-SupervisorID int ,
-branchid INT,
-Dno INT ,
-constraint super_Employee foreign key(SupervisorID)
-REFERENCES Employee (EmployeeId) ,
-CONSTRAINT branchid_Employee foreign key(branchid)
-references branch(branchid) ,
-);
-go
+<br> --Creating table named Employee
+<br> create table Employee (
+<br> EmployeeId int primary key,
+<br> FirstName varchar(30) NOT NULL,
+<br> LastName varchar(30) NOT null,
+<br> Salary DECIMAL NOT NULL,
+<br> Position varchar(50) NOT NULL,
+<br> SupervisorID int ,
+<br> branchid INT,
+<br> Dno INT ,
+<br> constraint super_Employee foreign key(SupervisorID)
+<br> REFERENCES Employee (EmployeeId) ,
+<br> CONSTRAINT branchid_Employee foreign key(branchid)
+<br> references branch(branchid) ,
+<br> );
+<br> go
 
---create table named Department
-CREATE TABLE Department 
-(
-Dnumber INT PRIMARY KEY ,
-Dname VARCHAR(50) NOT NULL,
-MgriD INT ,
-constraint manager_Employee foreign key(MgriD)
-REFERENCES Employee (EmployeeId) 
-)
+<br> --create table named Department
+<br> CREATE TABLE Department 
+<br> (
+<br> Dnumber INT PRIMARY KEY ,
+<br> Dname VARCHAR(50) NOT NULL,
+<br> MgriD INT ,
+<br> constraint manager_Employee foreign key(MgriD)
+<br> REFERENCES Employee (EmployeeId) 
+<br> )
 
-ALTER TABLE employee 
-ADD constraint Dno_Employee foreign key(Dno)references Department (DNumber) 
+<br> ALTER TABLE employee 
+<br> ADD constraint Dno_Employee foreign key(Dno)references Department (DNumber) 
 
---Creating table named Loan
-create table Loan (
-LoanId int primary key,
-Amount decimal not null,
-loan_months_terms int not null,
-LoanType varchar(30) not null,
-StartDate date not null,
-EndDate date not null,
-InterestRate varchar(20) not null,
-customerid int,
-BranchId int,
-constraint Loan_customer foreign key (customerid)
-references Customers (customerid),
-constraint Loan_Branch foreign key (BranchId)
-references Branch (BranchId)
-);
-go
+<br> --Creating table named Loan
+<br> create table Loan (
+<br> LoanId int primary key,
+<br> Amount decimal not null,
+<br> loan_months_terms int not null,
+<br> LoanType varchar(30) not null,
+<br> StartDate date not null,
+<br> EndDate date not null,
+<br> InterestRate varchar(20) not null,
+<br> customerid int,
+<br> BranchId int,
+<br> constraint Loan_customer foreign key (customerid)
+<br> references Customers (customerid),
+<br> constraint Loan_Branch foreign key (BranchId)
+<br> references Branch (BranchId)
+<br> );
+<br> go
 
+<br> --Creating table named ATM
+<br> create table ATM (
+<br> AtmId int primary key,
+<br> Atm_location varchar(50) NOT NULL,
+<br> Atm_status varchar(30) NOT NULL ,
+<br> BranchId int,
+<br> constraint ATM_Branch foreign key (BranchId)
+<br> references Branch(BranchId)
+<br> );
+<br> GO
 
---Creating table named ATM
-create table ATM (
-AtmId int primary key,
-Atm_location varchar(50) NOT NULL,
-Atm_status varchar(30) NOT NULL ,
-BranchId int,
-constraint ATM_Branch foreign key (BranchId)
-references Branch(BranchId)
-);
-GO
-
---create table Account_Atm_transcation
-CREATE TABLE Account_Atm_transcation
-(
-TransactionDate  DATE DEFAULT GETDATE() ,
-AccountNumber INT,
-transactionid INT identity(1,1) primary key,
-Transaction_Type_Id int,
-Atmid INT ,
-Amount FLOAT NOT NULL, 
-CONSTRAINT Atm_account_transcation foreign key (AccountNumber) references Account(AccountNumber),
-CONSTRAINT transcation_Account_Atm foreign key (Transaction_Type_Id) references Transactions(Transaction_Type_Id)
-);
-go
+<br> --create table Account_Atm_transcation
+<br> CREATE TABLE Account_Atm_transcation
+<br> (
+<br> TransactionDate  DATE DEFAULT GETDATE() ,
+<br> AccountNumber INT,
+<br> transactionid INT identity(1,1) primary key,
+<br> Transaction_Type_Id int,
+<br> Atmid INT ,
+<br> Amount FLOAT NOT NULL, 
+<br> CONSTRAINT Atm_account_transcation foreign key (AccountNumber) references Account(AccountNumber),
+<br> CONSTRAINT transcation_Account_Atm foreign key (Transaction_Type_Id) references Transactions(Transaction_Type_Id)
+<br> );
+<br> go
 
 # develop oltp system 
------------------ to get employee details along with department name---------
+<br>----------------- to get employee details along with department name---------
 
-CREATE OR ALTER VIEW EmployeeDetails 
-AS
-SELECT e.employeeid, concat (e.FirstName,' ',e.LastName) AS employee_name, e.salary, d.dname AS department_name
-FROM Employee e JOIN Department d 
-ON e.Dno = d.Dnumber
-WHERE Dnumber=10
+<br>CREATE OR ALTER VIEW EmployeeDetails 
+<br>AS
+<br>SELECT e.employeeid, concat (e.FirstName,' ',e.LastName) AS employee_name, e.salary, d.dname AS department_name
+<br>FROM Employee e JOIN Department d 
+<br>ON e.Dno = d.Dnumber
+<br>WHERE Dnumber=10
 
---test view query 
+<br>--test view query 
 
-select * from EmployeeDetails 
+<br>select * from EmployeeDetails 
 
-------------------name of manager employee-----------------------------
+<br>------------------name of manager employee-----------------------------
 
-create or alter view managerofemployee 
-as
-SELECT firstname,lastname,dname
-FROM employee e JOIN department d
-ON e.dno=D.dnumber
-AND e.employeeid=D.mgrid
+<br>create or alter view managerofemployee 
+<br>as
+<br>SELECT firstname,lastname,dname
+<br>FROM employee e JOIN department d
+<br>ON e.dno=D.dnumber
+<br>AND e.employeeid=D.mgrid
 
---test view query 
+<br>--test view query 
 
-select * from managerofemployee  
+<br>select * from managerofemployee  
 
---------view to count each transaction and display the sum of transactions-------
+<br>--------view to count each transaction and display the sum of transactions-------
 
-create or alter view most_transactions
-as
-  select transactionType, count(a.Transaction_Type_Id) as count_transactions 
-  from Account_Atm_transcation a, Transactions t
-  where a.TRANSACTION_type_ID = t.Transaction_Type_Id
-  group by transactionType
-  union all
-  SELECT 'Sum_of_Transactions' Transaction_type_Id, count(Transaction_type_Id)
-  FROM Account_Atm_transcation
+<br>create or alter view most_transactions
+<br>as
+<br>  select transactionType, count(a.Transaction_Type_Id) as count_transactions 
+<br>  from Account_Atm_transcation a, Transactions t
+<br>  where a.TRANSACTION_type_ID = t.Transaction_Type_Id
+<br>  group by transactionType
+<br>  union all
+<br>  SELECT 'Sum_of_Transactions' Transaction_type_Id, count(Transaction_type_Id)
+<br>  FROM Account_Atm_transcation
  
---test view query 
+<br>--test view query 
 
-SELECT * from most_transactions
+<br>SELECT * from most_transactions
 
------------create a view to get customer and their account details with the availability loans amount---------
+<br>-----------create a view to get customer and their account details with the availability loans amount---------
 
-create view v_customer_acc_details 
-As 
-select c.CustomerId, phone , concat(c.FirstName,c.LastName) as "Full Name" 
-,a.AccountNumber , balance , amount as "Loan Amount" 
-from Customer_phones cp inner join customers c 
-on cp.customerid = c.customerid
-inner join account a 
-on c.customerId = a.customerId, Customers cl 
-inner join loan l 
-on cl.customerId = l.customerId
-group by c.CustomerId, phone,concat(c.FirstName,c.LastName), a.AccountNumber , balance , amount 
+<br>create view v_customer_acc_details 
+<br>As 
+<br>select c.CustomerId, phone , concat(c.FirstName,c.LastName) as "Full Name" 
+<br>,a.AccountNumber , balance , amount as "Loan Amount" 
+<br>from Customer_phones cp inner join customers c 
+<br>on cp.customerid = c.customerid
+<br>inner join account a 
+<br>on c.customerId = a.customerId, Customers cl 
+<br>inner join loan l 
+<br>on cl.customerId = l.customerId
+<br>group by c.CustomerId, phone,concat(c.FirstName,c.LastName), a.AccountNumber , balance , amount 
 
---test view query 
+<br>--test view query 
 
-select * from v_customer_acc_details
+<br>select * from v_customer_acc_details
 
------------------------------------all customers info-------------------------------------
+<br>-----------------------------------all customers info-------------------------------------
 
-create OR ALTER view vw_customers_info 
-as
-select firstname,accounttype,balance,opendate,account_status,age,city
-from account a, customers s
-where a.CustomerId=s.CustomerId
+<br>create OR ALTER view vw_customers_info 
+<br>as
+<br>select firstname,accounttype,balance,opendate,account_status,age,city
+<br>from account a, customers s
+<br>where a.CustomerId=s.CustomerId
 
---test view query
+<br>--test view query
 
-select * from vw_customers_info
+<br>select * from vw_customers_info
 
----------------------all customers balance more than 25000----------------------------------
-create OR ALTER view vw_balance 
-as
-select balance , firstname
-from Account a , Customers c
-where a.CustomerId=c.CustomerId
-and Balance >25000
+<br>---------------------all customers balance more than 25000----------------------------------
+<br>create OR ALTER view vw_balance 
+<br>as
+<br>select balance , firstname
+<br>from Account a , Customers c
+<br>where a.CustomerId=c.CustomerId
+<br>and Balance >25000
 
---test view query
+<br>--test view query
 
-select * from vw_balance
+<br>select * from vw_balance
 
---------------------------------Funcation-----------------------------
+<br>--------------------------------Funcation-----------------------------
 
-----------------Function to calculate total salary for each department --------
+<br>----------------Function to calculate total salary for each department --------
 
-CREATE  OR ALTER FUNCTION cal_salary(@dnum INT)
-RETURNS DECIMAL(10,2)
-BEGIN
-DECLARE @total DECIMAL(10,2)
-SELECT  @total=SUM(salary)
-FROM  employee 
-WHERE Dno=@dnum
-RETURN @total
-END 
+<br>CREATE  OR ALTER FUNCTION cal_salary(@dnum INT)
+<br>RETURNS DECIMAL(10,2)
+<br>BEGIN
+<br>DECLARE @total DECIMAL(10,2)
+<br>SELECT  @total=SUM(salary)
+<br>FROM  employee 
+<br>WHERE Dno=@dnum
+<br>RETURN @total
+<br>END 
 
---test function query 
+<br>--test function query 
 
---select * from Employee
-select dbo.cal_Salary(10) AS Total_Salary
-
-
----------Create Scalar function name GetEmployeeSupervisor------------------------ 
---Returns the name of an employee's supervisor based on their employeeid.---------
-
-create or alter function getemployeesupervisor (@employeeid int) 
-returns varchar(50)
- begin 
-    declare @name varchar(50),@name2 VARCHAR(50)
-  select @name=s.FirstName ,@name2=s.LastName
-  from employee e join employee s
-  on s.employeeid=e.supervisorid
-  where e.employeeid=@employeeid
-  return @name + ' '+ @name2
- end 
-
---test function query 
-
---select * from Employee
-select dbo.getemployeesupervisor (2) as fullname
+<br>--select * from Employee
+<br>select dbo.cal_Salary(10) AS Total_Salary
 
 
---------------create function Calculate Monthly payment ----------------
+<br>---------Create Scalar function name GetEmployeeSupervisor------------------------ 
+<br>--Returns the name of an employee's supervisor based on their employeeid.---------
 
-create or alter function dbo.CalculateMonthlypayment(
-@interest_rate float,
-@loan_amount float,
-@loan_termmonths int,
-@monthly_interestrate float)
-returns float
-as 
-begin 
-	set @monthly_interestrate = @interest_rate/(12*100) ;
-	return ( @loan_amount*@monthly_interestrate) / (1 - power(1+ @monthly_interestrate,-@loan_termmonths)) ;
-End;
+<br>create or alter function getemployeesupervisor (@employeeid int) 
+<br>returns varchar(50)
+<br> begin 
+<br>    declare @name varchar(50),@name2 VARCHAR(50)
+<br>  select @name=s.FirstName ,@name2=s.LastName
+<br>  from employee e join employee s
+<br>  on s.employeeid=e.supervisorid
+<br>  where e.employeeid=@employeeid
+<br>  return @name + ' '+ @name2
+<br> end 
 
---test function query 
+<br>--test function query 
 
-select dbo.CalculateMonthlypayment(4.56,116500,42,0.0038) as [Monthly Loan Payment] 
-
------------------create function calculate Interest Amount -------------------------
-
-create function dbo.calculateInterestAmount(@loan_amount float,@interest_rate float,@loan_termmonths int)
-returns float
-as
-begin
-	return @loan_amount*(@interest_rate/(12*100))*@loan_termmonths
-end;
-
---test function query 
-
-select dbo.calculateInterestAmount(1000,10,12) as [Interest Amount]
+<br>--select * from Employee
+<br>select dbo.getemployeesupervisor (2) as fullname
 
 
----------------------------------all customers data------------------------------
+<br>--------------create function Calculate Monthly payment ----------------
 
-create OR ALTER function Getallcustomers(@acc_id int)
-returns table 
-return 
-select accounttype,balance,opendate,account_status,firstname,age,city
-from account a, customers s
-where a.CustomerId=s.CustomerId
+<br>create or alter function dbo.CalculateMonthlypayment(
+<br>@interest_rate float,
+<br>@loan_amount float,
+<br>@loan_termmonths int,
+<br>@monthly_interestrate float)
+<br>returns float
+<br>as 
+<br>begin 
+<br>	set @monthly_interestrate = @interest_rate/(12*100) ;
+<br>	return ( @loan_amount*@monthly_interestrate) / (1 - power(1+ @monthly_interestrate,-@loan_termmonths)) ;
+<br>End;
 
----test function query
+<br>--test function query 
 
-select * from Getallcustomers(1001)
+<br>select dbo.CalculateMonthlypayment(4.56,116500,42,0.0038) as [Monthly Loan Payment] 
+
+<br>-----------------create function calculate Interest Amount -------------------------
+
+<br>create function dbo.calculateInterestAmount(@loan_amount float,@interest_rate float,@loan_termmonths int)
+<br>returns float
+<br>as
+<br>begin
+<br>	return @loan_amount*(@interest_rate/(12*100))*@loan_termmonths
+<br>end;
+
+<br>--test function query 
+
+<br>select dbo.calculateInterestAmount(1000,10,12) as [Interest Amount]
+
+
+<br>---------------------------------all customers data------------------------------
+
+<br>create OR ALTER function Getallcustomers(@acc_id int)
+<br>returns table 
+<br>return 
+<br>select accounttype,balance,opendate,account_status,firstname,age,city
+<br>from account a, customers s
+<br>where a.CustomerId=s.CustomerId
+
+<br>---test function query
+
+<br>select * from Getallcustomers(1001)
  
  
- -----------------------function to getalldataabout info----------------------------
+<br> -----------------------function to getalldataabout info----------------------------
  
- create or alter function getinfo()
- returns table 
- return 
- select phone , email,FirstName
- from Customer_phones cp, Customers c
- where c.CustomerId=cp.CustomerId
+<br> create or alter function getinfo()
+<br> returns table 
+<br> return 
+<br> select phone , email,FirstName
+<br> from Customer_phones cp, Customers c
+<br> where c.CustomerId=cp.CustomerId
 
- --test funtion query 
+<br> --test funtion query 
  
- select * from getinfo()
+<br> select * from getinfo()
 
-----------------Create table function to return loan customer data-------------------
+<br>----------------Create table function to return loan customer data-------------------
 
-create OR ALTER  FUNCTION loan_customer_data (@id INT )
-RETURNS TABLE
-AS
-RETURN
-(
---DECLARE @loanid INT ,@firstname varchar(150),@Amount FLOAT,@interestrate FLOAT  
-Select L.loanId,c.firstname,l.Amount,L.Interestrate
-from loan l join Customers c
-ON  c.customerId =l.customerid
-WHERE c.customerId= @id   
-)
---test view query 
+<br>create OR ALTER  FUNCTION loan_customer_data (@id INT )
+<br>RETURNS TABLE
+<br>AS
+<br>RETURN
+<br>(
+<br>--DECLARE @loanid INT ,@firstname varchar(150),@Amount FLOAT,@interestrate FLOAT  
+<br>Select L.loanId,c.firstname,l.Amount,L.Interestrate
+<br>from loan l join Customers c
+<br>ON  c.customerId =l.customerid
+<br>WHERE c.customerId= @id   
+<br>)
+<br>--test view query 
 
-select * from loan_customer_data (2)
+<br>select * from loan_customer_data (2)
 
 
----------------------------------------Procedure---------------------------------------------
+<br>---------------------------------------Procedure---------------------------------------------
 
----------------------Procedure to count employees in each department------------------------------
+<br>---------------------Procedure to count employees in each department------------------------------
 
-create or alter proc total_of_num 
-as
-select count(e.employeeid) as count_num,d.DName
-from employee e join Department d
-on e.Dno= d.dnumber
-group by d.dname
+<br>create or alter proc total_of_num 
+<br>as
+<br>select count(e.employeeid) as count_num,d.DName
+<br>from employee e join Department d
+<br>on e.Dno= dnumber
+<br>group by d.dname
 
---test proc query 
+<br>--test proc query 
 
-execute total_of_num 
+<br>execute total_of_num 
 
--------------proc that return the transactions that specific customer had done------------------
+<br>-------------proc that return the transactions that specific customer had done------------------
 
-CREATE OR ALTER proc get_customer_transaction @account_nu INT, @trans_date DATE
-AS
-    begin
-    if EXISTS (SELECT * FROM Account_Atm_transcation WHERE accountnumber = @account_nu)
-    begin
-        SELECT transactiondate, accountnumber,a.transactionid,Atmid
-		,Amount,a.transaction_type_id, TransactionType
-        FROM Account_Atm_transcation a join Transactions t
-		on a.TRANSACTION_type_ID = t.Transaction_Type_Id
-        WHERE a.accountnumber = @account_nu
-        AND a.transactiondate = @trans_date	
-    END
-    ELSE
-    BEGIN
-        PRINT 'This id is invalid'
-end
-        RETURN 
-    END 
---test proc query
+<br>CREATE OR ALTER proc get_customer_transaction @account_nu INT, @trans_date DATE
+<br>AS
+<br>    begin
+<br>    if EXISTS (SELECT * FROM Account_Atm_transcation WHERE accountnumber = @account_nu)
+<br>    begin
+<br>        SELECT transactiondate, accountnumber,a.transactionid,Atmid
+<br>		,Amount,a.transaction_type_id, TransactionType
+<br>        FROM Account_Atm_transcation a join Transactions t
+<br>		on a.TRANSACTION_type_ID = t.Transaction_Type_Id
+<br>        WHERE a.accountnumber = @account_nu
+<br>        AND a.transactiondate = @trans_date	
+<br>    END
+<br>    ELSE
+<br>    BEGIN
+<br>        PRINT 'This id is invalid'
+<br>end
+<br>        RETURN 
+<br>    END 
+<br>--test proc query
 
---SELECT * FROM Account 
-EXECUTE get_customer_transaction 1002, '2023-08-19'
+<br>--SELECT * FROM Account 
+<br>EXECUTE get_customer_transaction 1002, '2023-08-19'
 
-----------proc that return the amount of money of specific transaction type-------------
+<br>----------proc that return the amount of money of specific transaction type-------------
 
-create or alter proc total_amount_of_specific_transaction @transaction_type varchar(20)
-as 
-select t.transactionType,a.TRANSACTION_type_ID ,sum(amount) as sum_amount_transaction
-from transactions t, Account_Atm_transcation a
-where a.TRANSACTION_type_ID = t.Transaction_Type_Id 
-and transactionType =  @transaction_type
-group by transactionType, a.Transaction_Type_Id
+<br>create or alter proc total_amount_of_specific_transaction @transaction_type varchar(20)
+<br>as 
+<br>select t.transactionType,a.TRANSACTION_type_ID ,sum(amount) as sum_amount_transaction
+<br>from transactions t, Account_Atm_transcation a
+<br>where a.TRANSACTION_type_ID = t.Transaction_Type_Id 
+<br>and transactionType =  @transaction_type
+<br>group by transactionType, a.Transaction_Type_Id
 
---test proc query 
+<br>--test proc query 
 
---SELECT * FROM Account_Atm_transcation aat 
-EXECUTE total_amount_of_specific_transaction 'Withdrawal'
+<br>--SELECT * FROM Account_Atm_transcation aat 
+<br>EXECUTE total_amount_of_specific_transaction 'Withdrawal'
 
-------------Create a stored procedure to add "Dear" as a prefix to customer's name.-------------------- 
+<br>------------Create a stored procedure to add "Dear" as a prefix to customer's name.-------------------- 
 
-CREATE OR ALTER PROCEDURE sp_Update_customer 
-@customerId int
-AS
-UPDATE customers 
-SET Firstname = Concat('Dear' , ' ' , FirstName)
-where CustomerId = @customerId 
+<br>CREATE OR ALTER PROCEDURE sp_Update_customer 
+<br>@customerId int
+<br>AS
+<br>UPDATE customers 
+<br>SET Firstname = Concat('Dear' , ' ' , FirstName)
+<br>where CustomerId = @customerId 
 
---test proc query 
+<br>--test proc query 
 
---SELECT * FROM customers
+<br>--SELECT * FROM customers
 
-EXEC sp_Update_customer 1;
+<br>EXEC sp_Update_customer 1;
   
----------Create a stored procedure that accepts AccountId as a parameter and returns customer's full name and account's details.--------- 
+<br>---------Create a stored procedure that accepts AccountId as a parameter and returns customer's full name and account's details.--------- 
 
-create PROCEDURE sp_Customer_Details @AccountNumber INT
-AS
-SELECT c.firstname +' ' +c.lastname AS Customer_full_name , a.accountNumber ,a.balance 
-FROM Customers c
-JOIN Account a
-ON c.customerID = a.customerId
-WHERE a.accountNumber = @AccountNumber;
+<br>create PROCEDURE sp_Customer_Details @AccountNumber INT
+<br>AS
+<br>SELECT c.firstname +' ' +c.lastname AS Customer_full_name , a.accountNumber ,a.balance 
+<br>FROM Customers c
+<br>JOIN Account a
+<br>ON c.customerID = a.customerId
+<br>WHERE a.accountNumber = @AccountNumber;
 
---test proc query
+<br>--test proc query
 
-EXEC sp_Customer_Details 1001;
+<br>EXEC sp_Customer_Details 1001;
 
--------------Write a procedure query to remove cstate column from Customer table. -----------------------
+<br>-------------Write a procedure query to remove cstate column from Customer table. -----------------------
 
-CREATE PROCEDURE sp_Remove_Column
-AS
-ALTER TABLE Customers
-DROP COLUMN state
+<br>CREATE PROCEDURE sp_Remove_Column
+<br>AS
+<br>ALTER TABLE Customers
+<br>DROP COLUMN state
 
---test proc query      $danguer$   $danguer$   $danguer$   $danguer$   $danguer$ 
+<br>--test proc query      $danguer$   $danguer$   $danguer$   $danguer$   $danguer$ 
 
-EXEC sp_Remove_Column;
+<br>EXEC sp_Remove_Column;
 
------------------------stored about customers their accounts are saving-----------------------
+<br>-----------------------stored about customers their accounts are saving-----------------------
 
-create or alter proc get_allsaving 
-as
-(
-select firstname,accounttype,balance,age
-from Customers c ,Account a
-where c.CustomerId=a.CustomerId
-and accounttype='saving'
-)
+<br>create or alter proc get_allsaving 
+<br>as
+<br>(
+<br>select firstname,accounttype,balance,age
+<br>from Customers c ,Account a
+<br>where c.CustomerId=a.CustomerId
+<br>and accounttype='saving'
+<br>)
 
-get_allsaving
+<br>get_allsaving
 
-----------------------------------current------------------------------
-create proc getallcurrent as 
-(
-select firstname,accounttype,balance,age
-from Customers c ,Account a
-where c.CustomerId=a.CustomerId
-and accounttype='current'
-)
+<br>----------------------------------current------------------------------
+<br>create proc getallcurrent as 
+<br>(
+<br>select firstname,accounttype,balance,age
+<br>from Customers c ,Account a
+<br>where c.CustomerId=a.CustomerId
+<br>and accounttype='current'
+<br>)
 
-getallcurrent
+<br>getallcurrent
 
--------------------------------credit--------------------------------------------
- create or alter proc getallcredit 
- as 
- select cardtype,firstname , accounttype 
- from card ca ,customers c , account a 
- where ca.accountnumber=A.accountnumber
- and A.customerid=c.customerid
- and cardtype='credit'
+<br>-------------------------------credit--------------------------------------------
+<br> create or alter proc getallcredit 
+<br> as 
+<br> select cardtype,firstname , accounttype 
+<br> from card ca ,customers c , account a 
+<br> where ca.accountnumber=A.accountnumber
+<br> and A.customerid=c.customerid
+<br> and cardtype='credit'
 
- getallcredit
+<br> getallcredit
 
-----------------------------------debit---------------------------------
- create or alter proc getalldebit 
- as 
- select cardtype,firstname , accounttype 
- from card ca ,customers c , account a 
- where ca.accountnumber=A.accountnumber
- and A.customerid=c.customerid
- and cardtype='debit'
+<br>----------------------------------debit---------------------------------
+<br> create or alter proc getalldebit 
+<br> as 
+<br> select cardtype,firstname , accounttype 
+<br> from card ca ,customers c , account a 
+<br> where ca.accountnumber=A.accountnumber
+<br> and A.customerid=c.customerid
+<br> and cardtype='debit'
 
- getalldebit
+<br> getalldebit
 
 
----------------------------------------Trigger-----------------------------------------------------
+<br>---------------------------------------Trigger-----------------------------------------------------
 
-----------------------Trigger to update last_updated column when an employee is updated---------------
+<br>----------------------Trigger to update last_updated column when an employee is updated---------------
 
-ALTER TABLE employee 
-ADD last_updated DATETIME
+<br>ALTER TABLE employee 
+<br>ADD last_updated DATETIME
     
-CREATE OR ALTER TRIGGER UpdateEmployeeLastUpdated
-ON Employee
-AFTER UPDATE
-as
-BEGIN
-    UPDATE Employee
-    SET last_updated = GETDATE()
-	FROM employee e,INSERTED i
-    WHERE e.employeeid = i.employeeid;
-END
+<br>CREATE OR ALTER TRIGGER UpdateEmployeeLastUpdated
+<br>ON Employee
+<br>AFTER UPDATE
+<br>as
+<br>BEGIN
+<br>    UPDATE Employee
+<br>    SET last_updated = GETDATE()
+<br>	FROM employee e,INSERTED i
+<br>    WHERE e.employeeid = i.employeeid;
+<br>END
 
---test trigger query 
+<br>--test trigger query 
 
-UPDATE employee 
-SET salary+=200000
-WHERE employeeid=1
+<br>UPDATE employee 
+<br>SET salary+=200000
+<br>WHERE employeeid=1
 
-SELECT * FROM employee 
+<br>SELECT * FROM employee 
 
----------------------Trigger that update balance depend on the transaction type----------------------
+<br>---------------------Trigger that update balance depend on the transaction type----------------------
 
-create or alter trigger update_balance
-on Account_Atm_transcation
-after insert 
-AS
+<br>create or alter trigger update_balance
+<br>on Account_Atm_transcation
+<br>after insert 
+<br>AS
 
- if exists (select transaction_Type_id from inserted where transaction_Type_id=1)
+<br> if exists (select transaction_Type_id from inserted where transaction_Type_id=1)
 
- begin 
- declare @amount float, @account_no int
- select @amount = amount, @account_no = Accountnumber from inserted
- update Account
- set balance -= @amount where Accountnumber = @account_no
- END
+<br> begin 
+<br> declare @amount float, @account_no int
+<br> select @amount = amount, @account_no = Accountnumber from inserted
+<br> update Account
+<br> set balance -= @amount where Accountnumber = @account_no
+<br> END
 
- else if exists(select transaction_Type_id from inserted where transaction_Type_id=2)
+<br> else if exists(select transaction_Type_id from inserted where transaction_Type_id=2)
 
- begin 
- select @amount = amount, @account_no = Accountnumber from inserted
- update Account
- set balance += @amount where Accountnumber = @account_no
- end
+<br> begin 
+<br> select @amount = amount, @account_no = Accountnumber from inserted
+<br> update Account
+<br> set balance += @amount where Accountnumber = @account_no
+<br> end
 
---test trigger query 
+<br>--test trigger query 
 
- insert into Account_Atm_transcation
- values ('2023-8-19',1001,1,200,500)
+<br> insert into Account_Atm_transcation
+<br> values ('2023-8-19',1001,1,200,500)
 
- --select* from Account
- -----------------------------------index------------------------------------------
+<br> --select* from Account
+<br> -----------------------------------index------------------------------------------
 
-CREATE NONCLUSTERED INDEX idx_CustomerID ON Account (Balance)
+<br>CREATE NONCLUSTERED INDEX idx_CustomerID ON Account (Balance)
 
-CREATE UNIQUE INDEX uni_accountnumber ON account (accountnumber) 
---SELECT * FROM account
-SELECT * FROM Customers 
-----------------------------------cursor----------------------------------------------
-declare c9 cursor
-for
-	select FirstName,gender
-	from customers
-for update 
-declare @N varchar(100), @G varchar(10)
-open c9
-fetch c9 into  @N, @G
-WHILE @@fetch_status=0
-begin
-    if (@G = 'm' )
-		BEGIN
-		update Customers 
-		set FirstName = 'Mr.'+@N
-		WHERE CURRENT OF c9
-		END
-	else if (@G = 'f' )
-		BEGIN
-		update customers 
-		set FirstName = 'Mrs.'+@N
-		WHERE CURRENT OF c9
-		END
-fetch c9 into  @N, @G
-end
-close c9
-deallocate c9
+<br>CREATE UNIQUE INDEX uni_accountnumber ON account (accountnumber) 
+<br>--SELECT * FROM account
+<br>SELECT * FROM Customers 
+<br>----------------------------------cursor----------------------------------------------
+<br>declare c9 cursor
+<br>for
+<br>	select FirstName,gender
+<br>	from customers
+<br>for update 
+<br>declare @N varchar(100), @G varchar(10)
+<br>open c9
+<br>fetch c9 into  @N, @G
+<br>WHILE @@fetch_status=0
+<br>begin
+<br>    if (@G = 'm' )
+<br>		BEGIN
+<br>		update Customers 
+<br>		set FirstName = 'Mr.'+@N
+<br>		WHERE CURRENT OF c9
+<br>		END
+<br>	else if (@G = 'f' )
+<br>		BEGIN
+<br>		update customers 
+<br>		set FirstName = 'Mrs.'+@N
+<br>		WHERE CURRENT OF c9
+<br>		END
+<br>fetch c9 into  @N, @G
+<br>end
+<br>close c9
+<br>deallocate c9
 
---test  cursor query 
+<br>--test  cursor query 
 
-SELECT * FROM customers 
+<br>SELECT * FROM customers 
 
-----------------------------------default--------------------------------------
-create default def1 as 5000
+<br>----------------------------------default--------------------------------------
+<br>create default def1 as 5000
 
-sp_bindefault  def1,'Employee.salary'
+<br>sp_bindefault  def1,'Employee.salary'
 
---test default query 
+<br>--test default query 
 
-SELECT * FROM employee
-----------------------------------rules-----------------------------------------
-create rule r1 as @x>1000
-sp_bindrule  r1,'Employee.salary'
+<br>SELECT * FROM employee
+<br>----------------------------------rules-----------------------------------------
+<br>create rule r1 as @x>1000
+<br>sp_bindrule  r1,'Employee.salary'
 
---test rules query 
+<br>--test rules query 
 
-SELECT * FROM employee
+<br>SELECT * FROM employee
 
---------------------------------------cte---------------------------------------------------
--------------CREATE cte employee salary greather  than 45000 and his department name--------------
+<br>--------------------------------------cte---------------------------------------------------
+<br>-------------CREATE cte employee salary greather  than 45000 and his department name--------------
 
- WITH CTE_Employee 
- AS 
- ( SELECT FirstName, LastName,  Salary,d.dname
- FROM Employee e JOIN department d 
- ON d.Dnumber= e.Dno
-WHERE Salary > '45000' )
---run cte 
-SELECT FirstName, LastName,Dname
-FROM CTE_Employee
+<br> WITH CTE_Employee 
+<br> AS 
+<br> ( SELECT FirstName, LastName,  Salary,d.dname
+<br> FROM Employee e JOIN department d 
+<br> ON d.Dnumber= e.Dno
+<br>WHERE Salary > '45000' )
+<br>--run cte 
+<br>SELECT FirstName, LastName,Dname
+<br>FROM CTE_Employee
 
---SELECT * FROM employee 
+<br>--SELECT * FROM employee 
 
----------------------------------------case-----------------------------------------------
-----------------------create case on age to return baby,young,old-------------------------
-SELECT FirstName, LastName, Age,  
-CASE 
-WHEN Age > 30 THEN 'Old' 
-WHEN Age BETWEEN 27 AND 30 THEN 'Young' 
-ELSE 'Baby'
-END AS description_Age
-FROM Customers 
-WHERE Age IS NOT NULL 
-ORDER BY age
--------------------------------------rank----------------------------------
-SELECT *, dense_RANK() OVER(PARTITION BY Dno ORDER BY Salary ) AS employe_rank
-FROM Employee 
-ORDER BY Dno, Salary
+<br>---------------------------------------case-----------------------------------------------
+<br>----------------------create case on age to return baby,young,old-------------------------
+<br>SELECT FirstName, LastName, Age,  
+<br>CASE 
+<br>WHEN Age > 30 THEN 'Old' 
+<br>WHEN Age BETWEEN 27 AND 30 THEN 'Young' 
+<br>ELSE 'Baby'
+<br>END AS description_Age
+<br>FROM Customers 
+<br>WHERE Age IS NOT NULL 
+<br>ORDER BY age
+<br>-------------------------------------rank----------------------------------
+<br>SELECT *, dense_RANK() OVER(PARTITION BY Dno ORDER BY Salary ) AS employe_rank
+<br>FROM Employee 
+<br>ORDER BY Dno, Salary
 
---test
-SELECT * FROM employee
+<br>--test
+<br>SELECT * FROM employee
 
------------------------------------top -------------------------           
-select top 2 * from employee  
------------------------------------like -------------------------
-select * from employee e 
-where firstname like '_k%'
------------------------------------end--------------------------------
+<br>-----------------------------------top -------------------------           
+<br>select top 2 * from employee  
+<br>-----------------------------------like -------------------------
+<br>select * from employee e 
+<br>where firstname like '_k%'
+<br>-----------------------------------end--------------------------------
 
 
