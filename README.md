@@ -6,10 +6,10 @@
 ![ERD](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/d0678ad1-73d9-419e-bdbd-30db41bcfc4c)
 # third Mapping 
 
-![Screenshot 2023-10-02 200013](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/d9793d97-801f-48ca-bf69-e582ac730665)
+![Mapping](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/fa82748a-00b3-4f3a-9062-7d8786c7b822)
 # then impliment physical schema   
 
-![06_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/1015bd3b-fd81-4ba4-82dc-8b822a5bcba3)
+![05_OLTP_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/00b74b32-aa4a-4d7d-be11-3d5d177b669f)
 
 # Let's go for structure 
 <br> create database Union_Bank
