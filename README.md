@@ -173,7 +173,7 @@
 <br> );
 <br> go
 # Denormalized Data Base star Schema 
-![05_OLTP_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/0a1fb3d7-211c-43c2-af54-57c41fd1ae8d)
+![OLAP_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/958f8dcc-3156-4e32-810f-fc30ff025c07)
 
 
 
