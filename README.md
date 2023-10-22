@@ -173,6 +173,11 @@
 <br> );
 <br> go
 # Denormalized Data Base star Schema 
+<br> Business Process "Transactions "
+<br> Grain "Low Level"
+<br> Dimensions -----> Account - Branch - Customer -ATM - Date - card 
+<br> Fact Table : transaction 
+#Star Schema
 ![OLAP_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/958f8dcc-3156-4e32-810f-fc30ff025c07)
 
 
