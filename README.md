@@ -181,6 +181,17 @@
 # Star Schema
 ![OLAP_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/958f8dcc-3156-4e32-810f-fc30ff025c07)
 
+# Business Intelligence Using SSIS SSAS SSRS 
+# First Integration using SSIS
+
+![Atm_BranchDims](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/7b29f9a0-fe0f-4b65-a96c-743ea04e68c0)
+
+# Secound Cube "The cube are Genarlized About Businnes CEOs and CMOs should closely track financial performance, set clear goals, and analyze key metrics to measure profits. They must identify and manage risks by conducting assessments and creating strategies to mitigate potential threats."
+![Cube](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/1dc9ce9b-360f-41bf-9d89-d278387ee4ff)
+
+# Third SSRS 
+![Screenshot (122)](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/5fdf312b-161c-42b1-b22e-9ce07a9d9330)
+
 
 
 
