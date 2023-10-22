@@ -172,6 +172,9 @@
 <br> CONSTRAINT transcation_Account_Atm foreign key (Transaction_Type_Id) references Transactions(Transaction_Type_Id)
 <br> );
 <br> go
+# Denormalized Data Base star Schema 
+![05_OLTP_schema](https://github.com/Mario-farouk/BankSystemDesign/assets/136117708/0a1fb3d7-211c-43c2-af54-57c41fd1ae8d)
+
 
 
 
